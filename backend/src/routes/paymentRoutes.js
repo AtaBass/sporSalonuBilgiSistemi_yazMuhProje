@@ -1,0 +1,14 @@
+const { Router } = require('express');
+const auth = require('../middlewares/authMiddleware');
+const { requireRoles } = require('../middlewares/roleMiddleware');
+const c = require('../controllers/paymentController');
+
+const router = Router();
+router.use(auth);
+router.get('/late', c.listLate);
+router.get('/', c.list);
+router.post('/', requireRoles('YONETICI'), c.create);
+router.put('/:id', requireRoles('YONETICI'), c.update);
+router.delete('/:id', requireRoles('YONETICI'), c.remove);
+
+module.exports = router;
